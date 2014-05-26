@@ -1,6 +1,6 @@
 <?php
 
-class FindSimilarPlugin extends Omeka_Plugin_AbstractPlugin
+class FacetByMetadataPlugin extends Omeka_Plugin_AbstractPlugin
 {
     
     protected $_hooks = array(
@@ -8,7 +8,6 @@ class FindSimilarPlugin extends Omeka_Plugin_AbstractPlugin
             'config_form',
             'config'
             );
-    
     
     public function hookConfigForm()
     {
@@ -26,17 +25,21 @@ class FindSimilarPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $post = $args['post'];
         if(isset($post['elements'])) {
-            set_option('find_similar_elements', json_encode($post['elements']));
+            set_option('facet_by_metadata_elements', json_encode($post['elements']));
         } else {
-            set_option('find_similar_elements', json_encode(array()));
+            set_option('facet_by_metadata_elements', json_encode(array()));
         }
+        set_option('facet_by_metadata_heading', $post['facet_by_metadata_heading']);
     }
     
     public function hookPublicItemsShow($args)
     {
-        require_once 'Find_Similar_Form.php';
+        require_once 'Facet_By_Metadata_Form.php';
         $item = $args['item'];
-        $form = new Find_Similar_Form(array('item' => $item));
-        echo $form;
+        $html = '<div class="facet-by-metadata">';
+        $html .= '<h2>' . get_option('facet_by_metadata_heading') . '</h2>';
+        $html .= new Facet_By_Metadata_Form(array('item' => $item));
+        $html .= '</div>';
+        echo $html;
     }
 }
