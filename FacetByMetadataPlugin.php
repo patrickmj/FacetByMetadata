@@ -6,8 +6,14 @@ class FacetByMetadataPlugin extends Omeka_Plugin_AbstractPlugin
     protected $_hooks = array(
             'public_items_show',
             'config_form',
-            'config'
+            'config',
+            'install'
             );
+    
+    public function hookInstall()
+    {
+        set_option('facet_by_metadata_elements', json_encode(array()));
+    }
     
     public function hookConfigForm()
     {
