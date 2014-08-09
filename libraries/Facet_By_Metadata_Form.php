@@ -13,8 +13,7 @@ class Facet_By_Metadata_Form extends Omeka_Form
         foreach($elementIds as $elementId)
         {
             $element = $elTable->find($elementId);
-            $elements[$elementId] = $element->name . ': ' . metadata($this->item, array($element->getElementSet()->name, $element->name));
-            $elementIds[$element->id] = metadata($element, 'name');
+            $elements[$elementId] = metadata($element, 'name') . ': ' . metadata($this->item, array($element->getElementSet()->name, $element->name));
         }
         $checkboxes = new Zend_Form_Element_MultiCheckbox('elements');
         $checkboxes->setMultiOptions($elements);
