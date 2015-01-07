@@ -3,7 +3,7 @@
 class Facet_By_Metadata_Form extends Omeka_Form
 {
     protected $item;
-    
+
     public function init()
     {
         $this->setAction(url('facet-by-metadata'));
@@ -13,7 +13,7 @@ class Facet_By_Metadata_Form extends Omeka_Form
         foreach($elementIds as $elementId)
         {
             $element = $elTable->find($elementId);
-            $elements[$elementId] = metadata($element, 'name') . ': ' . metadata($this->item, array($element->getElementSet()->name, $element->name));
+            $elements[$elementId] = metadata($element, 'name') . ': ' . metadata($this->item, array($element->getElementSet()->name, $element->name), array('no_escape' => true));
         }
         $checkboxes = new Zend_Form_Element_MultiCheckbox('elements');
         $checkboxes->setMultiOptions($elements);
@@ -21,7 +21,7 @@ class Facet_By_Metadata_Form extends Omeka_Form
         $this->addElement('hidden', 'item_id', array('value' => $this->item->id));
         $this->addElement('submit', __('Find'));
     }
-    
+
     protected function setItem($item)
     {
         $this->item = $item;
